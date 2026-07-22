@@ -33,7 +33,7 @@ def load_or_train_model():
 pipeline = load_or_train_model()
 
 # User Interface Header
-st.title("📩 Email Spam Classifier UI")
+st.title("📩 Email Spam Classifier")
 st.write("Type or paste an Email text message below to classify it in real-time.")
 
 # User Input Text Area
