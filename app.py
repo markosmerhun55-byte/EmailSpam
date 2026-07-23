@@ -60,13 +60,13 @@ st.subheader("Enter a Message to Test:")
 # Sample pre-filled examples
 sample_option = st.selectbox(
     "Or select a sample message:",
-    # [
-    #     "Custom Input",
-    #     "WINNER!! As a valued network customer you have been selected to receive a £900 prize reward!",
-    #     "Hey, are we still meeting for lunch today at 1 PM?",
-    #     "URGENT! Your Mobile number has been awarded a £2000 bonus call. Call 09066362231 now!",
-    #     "Can you send me the project report when you get a chance?"
-    # ]
+     [
+         "Custom Input",
+     "WINNER!! As a valued network customer you have been selected to receive a £900 prize reward!",
+        "Hey, are we still meeting for lunch today at 1 PM?",
+        "URGENT! Your Mobile number has been awarded a £2000 bonus call. Call 09066362231 now!",
+         "Can you send me the project report when you get a chance?"
+    ]
 )
 
 if sample_option != "Custom Input":
