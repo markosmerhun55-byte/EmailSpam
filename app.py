@@ -1,42 +1,46 @@
-import streamlit as st
 import pandas as pd
-from sklearn.model_selection import train_test_split
+import streamlit as st
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
 from sklearn.svm import LinearSVC
 
 # ---------------------------------------------------------
 # Page Configuration
 # ---------------------------------------------------------
 st.set_page_config(
-    page_title="SMS Spam Detector (Linear SVM)",
-    page_icon="📩",
-    layout="centered"
+    page_title="SMS Spam Detector (Linear SVM)", page_icon="📩", layout="centered"
 )
+
 
 # ---------------------------------------------------------
 # 1. Model Training & Caching
 # ---------------------------------------------------------
 @st.cache_resource
 def load_and_train_model():
-    """
-    Loads dataset from URL, vectorizes using TF-IDF,
+    """Loads dataset from URL, vectorizes using TF-IDF,
+
     and trains a LinearSVC model.
     """
     url = "https://raw.githubusercontent.com/justmarkham/pycon-2016-tutorial/master/data/sms.tsv"
-    df = pd.read_csv(url, sep='\t', header=None, names=['label', 'message'])
-    df['label_num'] = df['label'].map({'ham': 0, 'spam': 1})
+    df = pd.read_csv(url, sep="\t", header=None, names=["label", "message"])
+    df["label_num"] = df["label"].map({"ham": 0, "spam": 1})
 
     X_train, _, y_train, _ = train_test_split(
-        df['message'], df['label_num'], test_size=0.2, random_state=42, stratify=df['label_num']
+        df["message"],
+        df["label_num"],
+        test_size=0.2,
+        random_state=42,
+        stratify=df["label_num"],
     )
 
-    vectorizer = TfidfVectorizer(stop_words='english')
+    vectorizer = TfidfVectorizer(stop_words="english")
     X_train_tfidf = vectorizer.fit_transform(X_train)
 
     model = LinearSVC(random_state=42)
     model.fit(X_train_tfidf, y_train)
 
     return vectorizer, model
+
 
 # Load model and vectorizer
 with st.spinner("Training Linear SVM Model..."):
@@ -58,9 +62,7 @@ st.divider()
 st.subheader("Enter a Message to Test:")
 
 user_input = st.text_area(
-    "Message Text:",
-    height=120,
-    placeholder="Type or paste SMS message here..."
+    "Message Text:", height=120, placeholder="Type or paste SMS message here..."
 )
 
 # Predict Button
@@ -106,7 +108,9 @@ if st.button("🔍 Analyze Message", type="primary"):
             st.write("Keywords recognized by vectorizer:")
             st.write(", ".join([f"`{word}`" for word in matched_words]))
         else:
-            st.info("No learned vocabulary keywords were found in this message.")
+            st.info(
+                "No learned vocabulary keywords were found in this message."
+            )
 
 # Footer
 st.divider()
